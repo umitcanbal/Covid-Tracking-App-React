@@ -4,10 +4,11 @@ const url = "https://covid19.mathdro.id/api"
 
 export const fetchData = async () => {
   try {
-    //executes if fetching is succesful
-    const response = await axios.get(url)
-    return response
+    const { data: { confirmed, recovered, deaths, lastUpdate } } = await axios.get(url)
+
+    return { confirmed, recovered, deaths, lastUpdate }
+
   } catch (error) {
-    //executes if fetching is NOT succesful
+
   }
 }
