@@ -34,9 +34,10 @@
     "webpack-cli": "^3.3.9"
   },
   "dependencies": {
+    "@material-ui/core": "^4.0.0-rc.0",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
-    "react": "^16.10.2",
+    "react": "^16.13.1",
     "react-chartjs-2": "^2.9.0",
     "react-countup": "^4.3.3",
     "react-dom": "^16.10.2"
