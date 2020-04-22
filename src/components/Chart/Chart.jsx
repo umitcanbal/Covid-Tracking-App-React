@@ -4,7 +4,7 @@ import React from "react"
 const Chart = () => {
 
   return (
-    <h1>Charttan yazıyorum</h1>
+    <h1>Chart</h1>
   )
 }
 
