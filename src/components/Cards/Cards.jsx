@@ -4,10 +4,9 @@ import { Card, CardContent, Typography, Grid } from "@material-ui/core"
 
 import styles from "./Cards.module.css"
 
-const Cards = ({ confirmed, recovered, deaths, lastUpdate }) => {
-
-  
-
+const Cards = ({ data: { confirmed, recovered, deaths, lastUpdate } }) => {
+  console.log(lastUpdate)
+  if(!confirmed) return <p>Loading</p>
   return (
     <div className={styles.container}>
       <Grid container spacing={3} justify="center">
@@ -22,7 +21,7 @@ const Cards = ({ confirmed, recovered, deaths, lastUpdate }) => {
         <Grid item component={Card}>
           <CardContent>
             <Typography color="textSecondary" gutterBottom>Recovered</Typography>
-            <Typography variant="h5">Real Data</Typography>
+            <Typography variant="h5">{recovered.value}</Typography>
             <Typography color="textSecondary">Real Date</Typography>
             <Typography variant="body2">Number of recoveries from COVID-19</Typography>
           </CardContent>
@@ -30,7 +29,7 @@ const Cards = ({ confirmed, recovered, deaths, lastUpdate }) => {
         <Grid item component={Card}>
           <CardContent>
             <Typography color="textSecondary" gutterBottom>Deaths</Typography>
-            <Typography variant="h5">Real Data</Typography>
+            <Typography variant="h5">{deaths.value}</Typography>
             <Typography color="textSecondary">Real Date</Typography>
             <Typography variant="body2">Number of deaths caused by COVID-19</Typography>
           </CardContent>
