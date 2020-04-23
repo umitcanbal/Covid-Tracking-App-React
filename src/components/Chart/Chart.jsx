@@ -1,34 +1,93 @@
 import React, {useState, useEffect} from "react"
 
 import {fetchDailyData} from "../../api"
+import {Line} from 'react-chartjs-2';
+
+import styles from "./Chart.module.css"
 
 const Chart = () => {
 
-  const [data, setData] = useState({})
+  const [dailyData, setData] = useState({})
 
   useEffect( () => {
-    const doThis = async () => {
+    const doThis = async () => {  
       const fetchedDailyData = await fetchDailyData();
-      setData({fetchedDailyData})
-      //It can be wrriten shorter as below
-      //setData({await fetchDailyData()})
+      setData(fetchedDailyData)
     }
     doThis()
   }, [] )
 
-  console.log(data)
-
+  const lineChart = 
+  (
+    dailyData.length>0 ?
+    <Line 
+      data = { {
+        labels: dailyData.map( (eachData) => { return eachData.reportDate } ),
+        datasets: [
+          {
+            data: dailyData.map( (eachData) => { return eachData.totalConfirmed } )
+          }
+        ]
+      } } 
+      width={800}
+      height={400}
+      options={{ maintainAspectRatio: false }}
+    />
+    :
+    null
+  )
+  console.log(dailyData)
   return (
-    <h1>Chart</h1>
+    <div>
+      <h1>Chart</h1>
+      {lineChart}
+    </div>
   )
 }
 
+
+// const Chart = () => {
+
+//   const [dailyData, setData] = useState({})
+
+//   useEffect( () => {
+//     const doThis = async () => {  
+//       const fetchedDailyData = await fetchDailyData();
+//       setData(fetchedDailyData)
+//     }
+//     doThis()
+//   }, [] )
+
+//   const dataProperties = 
+//   (
+//       dailyData.length>0 ? 
+//         {
+//           labels: dailyData.map( (eachData) => { return eachData.reportDate } ),
+//           datasets: [
+//             {
+//               data: dailyData.map( (eachData) => { return eachData.totalConfirmed } )
+//             }
+//           ]
+//         }
+//         :
+//         {}
+//   )
+  
+//   return (
+//     <div>
+//       <h1>Chart</h1>
+//       <Line        
+//         data={dataProperties}
+//         width= {1000}
+//         height= {400}
+//         options= {{ maintainAspectRatio: false }}
+//       />
+//     </div>
+//   )
+// }
+
 export default Chart
 
-// Note:
-// This component will be rendered three times;
-// 1-When the App component is rendered for the first time, the Chart component will be rendered and mounted for the first time
-// 3-Here, because of the method "useEffect()" it will start re-rendering again to update itself
-// 2-When the App component's "componentDidMount" method is called, so the Chart component will re-render ALTHOUGH there is no change in Chart component, every setState in App component will reflect this component's re-render regardless of changes detected in Chart component.App
 
-// Additional Note: the numbers 1, 2, 3 are given according to their real time occurence, and the written order (1, 3 and 2) is given according to their starting point. Number 3 starts before number 2, BUT BUT BUT the parent component(App) will not wait for its child component(Chart)'s async/await function's completion. So that console.log(data) coming from number 3 will display before.  
+//Note: Here, I provided the second option commented out. In the commented out solution, it is even possible to create a function out of the component and call it when necessary.
+
