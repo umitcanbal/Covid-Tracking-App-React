@@ -37,9 +37,6 @@ const Chart = () => {
           }
         ]
       } } 
-      width={800}
-      height={400}
-      options={{ maintainAspectRatio: false }}
     />
     :
     null
@@ -48,8 +45,7 @@ const Chart = () => {
   console.log(dailyData)
 
   return (
-    <div>
-      <h1>Chart</h1>
+    <div  className={styles.container}>
       {lineChart}
     </div>
   )
