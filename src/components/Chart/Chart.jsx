@@ -7,7 +7,7 @@ import styles from "./Chart.module.css"
 
 const Chart = () => {
 
-  const [dailyData, setData] = useState({})
+  const [dailyData, setData] = useState([])
 
   useEffect( () => {
     const doThis = async () => {  
@@ -19,13 +19,21 @@ const Chart = () => {
 
   const lineChart = 
   (
-    dailyData.length>0 ?
+    dailyData.length ?
     <Line 
       data = { {
-        labels: dailyData.map( (eachData) => { return eachData.reportDate } ),
+        labels: dailyData.map( ({reportDate}) => { return reportDate } ),
         datasets: [
           {
-            data: dailyData.map( (eachData) => { return eachData.totalConfirmed } )
+            label: "Infected",
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            data: dailyData.map( ({totalConfirmed}) => { return totalConfirmed } )
+          },
+          {
+            label: "Deaths",
+            backgroundColor: 'rgba(255,0,0,0.8)',
+            data: dailyData.map( ({deaths: {total}}) => { return total } )
           }
         ]
       } } 
@@ -36,7 +44,9 @@ const Chart = () => {
     :
     null
   )
+  
   console.log(dailyData)
+
   return (
     <div>
       <h1>Chart</h1>
@@ -45,49 +55,6 @@ const Chart = () => {
   )
 }
 
-
-// const Chart = () => {
-
-//   const [dailyData, setData] = useState({})
-
-//   useEffect( () => {
-//     const doThis = async () => {  
-//       const fetchedDailyData = await fetchDailyData();
-//       setData(fetchedDailyData)
-//     }
-//     doThis()
-//   }, [] )
-
-//   const dataProperties = 
-//   (
-//       dailyData.length>0 ? 
-//         {
-//           labels: dailyData.map( (eachData) => { return eachData.reportDate } ),
-//           datasets: [
-//             {
-//               data: dailyData.map( (eachData) => { return eachData.totalConfirmed } )
-//             }
-//           ]
-//         }
-//         :
-//         {}
-//   )
-  
-//   return (
-//     <div>
-//       <h1>Chart</h1>
-//       <Line        
-//         data={dataProperties}
-//         width= {1000}
-//         height= {400}
-//         options= {{ maintainAspectRatio: false }}
-//       />
-//     </div>
-//   )
-// }
-
 export default Chart
 
-
-//Note: Here, I provided the second option commented out. In the commented out solution, it is even possible to create a function out of the component and call it when necessary.
 
