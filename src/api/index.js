@@ -21,3 +21,12 @@ export const fetchDailyData = async () => {
     alert("Daily data fetching can not be completed..!")
   }
 }
+
+export const fetchCountries = async () => {
+  try {
+    const response = await axios.get(`${url}/countries`)
+    return response
+  } catch (error) {
+    alert("Daily data fetching can not be completed..!")
+  }
+}
