@@ -1,40 +1,60 @@
 import React, {useState, useEffect} from "react"
 
-import { fetchCountryData, fetchCountries } from "../../api"
+import { fetchCountries } from "../../api"
+import { NativeSelect, FormControl} from "@material-ui/core"
 
-function CountryPicker() {
+import styles from "./CountryPicker.module.css"
 
-  const [countryNames, setCountryNames] = useState([])
+function CountryPicker(props) {
+
+  const [fetchedCountries, setFetchedCountries] = useState([])
 
   useEffect( () => {
-    const fetchCountryNames = async () => {
+    const fetch = async () => {
       const countries = await fetchCountries()
-      setCountryNames(countries.data.countries)
-    }
-    fetchCountryNames()
+      setFetchedCountries(countries)
+    } 
+    
+    fetch()
   }, [] )
-  
-  console.log(countryNames)
-  
-  const dropDown = (
-    countryNames.length ?
-    <select defaultValue="">
-      <option value="" disabled>Choose a country</option>
-      {
-        countryNames.map( (country, i) => (<option key={i}>{country.name}</option>) )
-      }
-    </select>
-    :
-    null
-  )
 
   return (
-    <div>
-      {dropDown}
-      <></>
-    </div>
-    
+    <FormControl className={styles.formControl}>
+      <NativeSelect defaultValue="" onChange={ (event) => props.handleCountryChange(event.target.value) }>
+        <option value="global">Global</option>
+        {fetchedCountries.map( (country, i) => {return <option key={i} value={country}>{country}</option>} )}
+      </NativeSelect>
+    </FormControl>
   )
+  // const [countryNames, setCountryNames] = useState([])
+
+  // useEffect( () => {
+  //   const fetchCountryNames = async () => {
+  //     const countries = await fetchCountries()
+  //     setCountryNames(countries.data.countries)
+  //   }
+  //   fetchCountryNames()
+  // }, [] )
+  
+  // const dropDown = (
+  //   countryNames.length ?
+  //   <select defaultValue="">
+  //     <option value="" disabled>Choose a country</option>
+  //     {
+  //       countryNames.map( (country, i) => (<option key={i}>{country.name}</option>) )
+  //     }
+  //   </select>
+  //   :
+  //   null
+  // )
+
+  // return (
+  //   <div>
+  //     {dropDown}
+  //     <></>
+  //   </div>
+    
+  // )
 }
 
 export default CountryPicker
